@@ -5,8 +5,151 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PGL2Zk"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="Hledání průniků" WindowStartupLocation="CenterScreen" WindowState="Maximized" Background="AliceBlue">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="5"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+			<ColumnDefinition Width="5"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+			<ColumnDefinition Width="5"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="auto"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="auto"></RowDefinition>
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.ColumnSpan="3" Grid.Column="1" FontSize="16" FontWeight="DemiBold" HorizontalAlignment="Center">Hledání možných konzultací</TextBlock>
+		<GroupBox Grid.Row="1" Grid.Column="1" Header="Student" Padding="3">
+			<Grid >
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="auto" MinWidth="100"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="auto"></RowDefinition>
+					<RowDefinition Height="auto"></RowDefinition>
+					<RowDefinition Height="auto"></RowDefinition>
+					<RowDefinition Height="auto"></RowDefinition>
+					<RowDefinition Height="*"></RowDefinition>
+				</Grid.RowDefinitions>
+				<TextBlock VerticalAlignment="Center">Příjmení:</TextBlock>
+				<TextBox VerticalAlignment="Center" Grid.Column="1" Text="{Binding SurNameStudent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+				<TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="0,5">Křestní jméno:</TextBlock>
+				<TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Text="{Binding FirstNameStudent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+				<Button x:Name="BtnAddStudent" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Width="75" Click="BtnAddStudent_Click">Hledej</Button>
+				<TextBlock Margin="5" Grid.Row="3" Grid.ColumnSpan="2">Seznam studentů pro konzultaci</TextBlock>
+				<DataGrid x:Name="DgdStudents" Grid.Row="4" Grid.ColumnSpan="2" ItemsSource="{Binding LstStudents}"  AutoGenerateColumns="False">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Os. číslo" Binding="{Binding OsobniCislo}"></DataGridTextColumn>
+						<DataGridTextColumn Header="Příjmení" Binding="{Binding SurName}" Width="*"></DataGridTextColumn>
+						<DataGridTextColumn Header="Křestní jméno" Binding="{Binding FirstName}" Width="*"></DataGridTextColumn>
+						<DataGridTemplateColumn Width="30">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<Button x:Name="BtnRemoveStudent" Click="BtnRemoveStudent_Click"  Width="18" Height="18" Background="Transparent"  BorderThickness="0">
+										<Image Source="pack://application:,,,/PGL2Zk;component/Resources/Remove.png"></Image>
+									</Button>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</Grid>
+		</GroupBox>
+
+		<GroupBox Grid.Row="1" Grid.Column="3" Header="Učitel" Padding="3">
+			<Grid >
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="auto" MinWidth="100"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="auto"></RowDefinition>
+					<RowDefinition Height="auto"></RowDefinition>
+					<RowDefinition Height="auto"></RowDefinition>
+					<RowDefinition Height="auto"></RowDefinition>
+					<RowDefinition Height="*"></RowDefinition>
+				</Grid.RowDefinitions>
+				<TextBlock VerticalAlignment="Center">Příjmení:</TextBlock>
+				<TextBox VerticalAlignment="Center" Grid.Column="1" Text="{Binding SurNameTeacher,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+				<TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="0,5">Křestní jméno:</TextBlock>
+				<TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Text="{Binding FirstNameTeacher,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+				<Button x:Name="BtnAddTeacher" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Width="75" Click="BtnAddTeacher_Click">Hledej</Button>
+				<TextBlock Margin="5" Grid.Row="3" Grid.ColumnSpan="2">Seznam učitelů pro konzultaci</TextBlock>
+				<DataGrid x:Name="DgdTeachers" Grid.Row="4" Grid.ColumnSpan="2" ItemsSource="{Binding LstTeachers}" AutoGenerateColumns="False">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="ID" Binding="{Binding OsobniCislo}"></DataGridTextColumn>
+						<DataGridTextColumn Header="Příjmení" Binding="{Binding SurName}" Width="*"></DataGridTextColumn>
+						<DataGridTextColumn Header="Křestní jméno" Binding="{Binding FirstName}" Width="*"></DataGridTextColumn>
+						<DataGridTemplateColumn  Width="30">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<Button x:Name="BtnRemoveTeacher" Click="BtnRemoveTeacher_Click" Width="18" Height="18"  Background="Transparent" BorderThickness="0">
+										<Image Source="pack://application:,,,/PGL2Zk;component/Resources/Remove.png"></Image>
+									</Button>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</Grid>
+		</GroupBox>
+
+		<Grid Grid.Row="2" Grid.ColumnSpan="4" >
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition></ColumnDefinition>
+				<ColumnDefinition Width="auto"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<GroupBox HorizontalAlignment="Stretch" Padding="3" Header="Místnost">
+				<Grid >
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="auto" MinWidth="100"></ColumnDefinition>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+						<ColumnDefinition Width="auto" MinWidth="75"></ColumnDefinition>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="auto"></RowDefinition>
+						<RowDefinition Height="auto"></RowDefinition>
+						<RowDefinition Height="*"></RowDefinition>
+					</Grid.RowDefinitions>
+					<TextBlock VerticalAlignment="Center">Číslo:</TextBlock>
+					<TextBox VerticalAlignment="Center" Grid.Column="1" Text="{Binding RoomNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="0,5"></TextBox>
+					<Button x:Name="BtnAddRoom" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Right" Width="75" Click="BtnAddRoom_Click" Height="18" Margin="5,0">Hledej</Button>
+					<TextBlock Margin="5" Grid.Row="3" Grid.ColumnSpan="2">Seznam místností pro konzultaci</TextBlock>
+					<DataGrid x:Name="DgdRooms" Grid.Row="4" Grid.ColumnSpan="3" ItemsSource="{Binding LstRooms}" AutoGenerateColumns="False" MinHeight="200">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Zkratka" Binding="{Binding Building}"></DataGridTextColumn>
+							<DataGridTextColumn Header="Číslo" Binding="{Binding RoomNumber}"></DataGridTextColumn>
+							<DataGridTextColumn Header="Pracoviště" Binding="{Binding WorkPlace}" Width="*"></DataGridTextColumn>
+							<DataGridTextColumn Header="Typ" Binding="{Binding Type}"></DataGridTextColumn>
+							<DataGridTextColumn Header="Adresa" Binding="{Binding Address}" Width="*"></DataGridTextColumn>
+							<DataGridTemplateColumn  Width="30">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<Button x:Name="BtnRemoveRoom" Click="BtnRemoveRoom_Click" Width="18" Height="18"  Background="Transparent" BorderThickness="0">
+											<Image Source="pack://application:,,,/PGL2Zk;component/Resources/Remove.png"></Image>
+										</Button>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+						</DataGrid.Columns>
+					</DataGrid>
+				</Grid>
+			</GroupBox>
+
+			<StackPanel  HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Margin="0,4">
+				<StackPanel Orientation="Horizontal" Margin="5">
+					<TextBlock VerticalAlignment="Center" Margin="5,0">Od:</TextBlock>
+					<DatePicker SelectedDate="{Binding DateFrom,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="5,0"></DatePicker>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" Margin="5">
+					<TextBlock VerticalAlignment="Center"  Margin="5,0">Do:</TextBlock>
+					<DatePicker SelectedDate="{Binding DateTo,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="5,0"></DatePicker>
+				</StackPanel>
+				<Button x:Name="BtnSearchTimes" Click="BtnSearchTimes_Click" Margin="5">Hledej termíny</Button>
+			</StackPanel>
+		</Grid>
+	</Grid>
 </Window>
